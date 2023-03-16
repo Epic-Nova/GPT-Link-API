@@ -15,26 +15,33 @@ app.post('/', async(req, res) => {
 
   if(APIKey == null) { res.send("No API Key provided"); return }
 
-  const api = new ChatGPTAPI({ apiKey: APIKey })
-  
-  const InstructionSet = await readFile("Content/GPTInstructions.txt", "utf-8");
-
-  let GPTResponse = await api.sendMessage(InstructionSet)
-  let GPTJSONResponse = JSON.parse(GPTResponse.text)
-  try 
+  try
   {
-    if(GPTJSONResponse["Status"] != "Ready") { res.send(GPTJSONResponse); return }
-    console.log("GPT is ready to receive messages")
+    const api = new ChatGPTAPI({ apiKey: APIKey })
 
-    var JSONSet = -"\nBEGIN OF EXECUTABLE TASKS\n" + JSON.stringify(req.body) + "\nEND OF EXECUTABLE TASKS"
-    GPTResponse = await api.sendMessage(JSONSet, {
-      conversationId: GPTResponse.conversationId,
-      parentMessageId: GPTResponse.id
-    })
+    const InstructionSet = await readFile("Content/GPTInstructions.txt", "utf-8");
 
-    res.send(JSON.parse(GPTResponse.text))
+    let GPTResponse = await api.sendMessage(InstructionSet)
+    let GPTJSONResponse = JSON.parse(GPTResponse.text)
+    try 
+    {
+      if(GPTJSONResponse["Status"] != "Ready") { res.send(GPTJSONResponse); return }
+      console.log("GPT is ready to receive messages")
+  
+      var JSONSet = -"\nBEGIN OF EXECUTABLE TASKS\n" + JSON.stringify(req.body) + "\nEND OF EXECUTABLE TASKS"
+      GPTResponse = await api.sendMessage(JSONSet, {
+        conversationId: GPTResponse.conversationId,
+        parentMessageId: GPTResponse.id
+      })
+  
+      res.send(JSON.parse(GPTResponse.text))
+    }
+    catch (error)
+    {
+      res.send(error)
+    }
   }
-  catch (error)
+  catch(error)
   {
     res.send(error)
   }
