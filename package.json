@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@types/node": "^18.13.0",
+    "chatgpt": "^4.2.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "ora": "^6.1.2"
+  }
+}

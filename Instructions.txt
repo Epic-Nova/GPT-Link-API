@@ -1,0 +1,2 @@
+Install first the Deps with: npm i
+then run the run.bat
