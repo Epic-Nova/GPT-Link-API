@@ -1,2 +1,2 @@
 Install first the Deps with: npm i
-then run the run.bat
+then run npx tsx API.ts
