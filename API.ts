@@ -10,8 +10,7 @@ const fs = require('fs');
 const readFile = promisify(fs.readFile);
 
 app.post('/', async(req, res) => {
-
-  const APIKey = req.headers.authorization.split(' ')[1]
+  const APIKey :string = req.get("Authorization").split(" ")[1]
 
   if(APIKey == null) { res.send("No API Key provided"); return }
 
