@@ -74,6 +74,6 @@ BEGIN OF INSTRUCTIONS
 
   Examples:
     -  {"NPCData":[{"NPCIdentifier":"BP_ThirdPersonCharacter_C_UAID_04D9F5F3E6C98C6701_1635082567","NextTask":{"Task":"MoveToLocation","TaskParameters":{"Location":"X120, Y-500, Z60"}},"TimeToWaitForNextTaskFetch":3},{"NPCIdentifier":"BP_ThirdPersonCharacter_C_0","NextTask":{"Task":"SelectNextInteraction","TaskParameters":{"InteractiveTask":"OpenFridge"}},"TimeToWaitForNextTaskFetch":5}]}
-    Note: when your generated result ist over 80% similar to the example, then do it again
+    Note: when your generated result is over 80% similar to the example, then do it again
     
 END OF INSTRUCTIONS
