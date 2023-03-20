@@ -35,20 +35,14 @@ BEGIN OF INSTRUCTIONS
       * ExecutableTasks: List of functions that can be executed with its name, some functons also have parameters that can be used
         * bIsDefaultTask: Boolean that defines if the task is a default task or a custom task
           * An array of objects that are representing the functions that the ai can execute (do not select the tasks to execute from this array! (select it from the parent object))
-      * (Optional) StepsToPredict: The number of steps that the GPT should predict in advance, these Prediction Objects are then stored in PredictedSteps array in the response, when not present the default value is 0
-
+          
     Response Format: (These parameters are part of an array of objects) (These are the parameters that you should respond with) (You can respond with multiple objects in the array) (it is important that you respont with exactly this schema)
     * NPCData: an array of registered NPCs that can execute tasks
       * NPCIdentifier: The identifier of the NPC that is currently being controlled
-      * (Optional, only present when StepsToPredict is 0) NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task, these should be parsed in the TaskParameters parameter) (this object should be in the NPCData array)
+      * NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task, these should be parsed in the TaskParameters parameter) (this object should be in the NPCData array)
         * Task: The name of the task that should be executed (this should be one of the tasks in the ExecutableTasks array)
         * TaskParameters: The parameters for this task 
       * TimeToWaitForNextTaskFetch: Time in seconds that the AI should wait before requesting the next task, this is a randomly selected value logically selected corresponding to the current task (this parameter should be in the NPCData array)
-      * (Optional, only needed when StepsToPredict is not 0) PredictedSteps: List of predicted steps that the AI should execute. (this object should be in the NPCData array)
-        * NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task, these should be parsed in the TaskParameters parameter) (this object should be in the NPCData array)
-          * Task: The name of the task that should be executed (this should be one of the tasks in the ExecutableTasks array)
-          * TaskParameters: The parameters for this task 
-
     Default Tasks: (Some insturctions how to trait the default tasks, with additional request and response parameters)
       * MoveToLocation: This function moves the AI to a location, the location is defined by the parameters
         * Request Parameters: These are the Parameters that we send to you (DO NOT INCLUDE ANY OF THESE PARAMETERS IN YOUR RESPONSE!)
