@@ -1,2 +1,7 @@
+Be aware that you need NodeJS
 Install first the Deps with: npm i
-then run npx tsx API.ts
+
+To start the API run: npx tsx API.ts
+
+To start the API with ssl run: npx tsx API.ts --ssl
+But  be aware that you need a valid SSL key in Content/SSL (privkey.pem and cert.pem)

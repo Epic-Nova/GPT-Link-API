@@ -40,10 +40,14 @@ BEGIN OF INSTRUCTIONS
     Response Format: (These parameters are part of an array of objects) (These are the parameters that you should respond with) (You can respond with multiple objects in the array) (it is important that you respont with exactly this schema)
     * NPCData: an array of registered NPCs that can execute tasks
       * NPCIdentifier: The identifier of the NPC that is currently being controlled
-      * (Optional, only present when StepsToPredict is 0) NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task) (this object should be in the NPCData array)
+      * (Optional, only present when StepsToPredict is 0) NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task, these should be parsed in the TaskParameters parameter) (this object should be in the NPCData array)
+        * Task: The name of the task that should be executed (this should be one of the tasks in the ExecutableTasks array)
+        * TaskParameters: The parameters for this task 
       * TimeToWaitForNextTaskFetch: Time in seconds that the AI should wait before requesting the next task, this is a randomly selected value logically selected corresponding to the current task (this parameter should be in the NPCData array)
       * (Optional, only needed when StepsToPredict is not 0) PredictedSteps: List of predicted steps that the AI should execute. (this object should be in the NPCData array)
-        * NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task) (this object should be in the NPCData array)
+        * NextTask: The next task that should be executed (this sould be one of the tasks in the ExecutableTasks array) (with an object of response parameters that are needed to execute the task, these should be parsed in the TaskParameters parameter) (this object should be in the NPCData array)
+          * Task: The name of the task that should be executed (this should be one of the tasks in the ExecutableTasks array)
+          * TaskParameters: The parameters for this task 
 
     Default Tasks: (Some insturctions how to trait the default tasks, with additional request and response parameters)
       * MoveToLocation: This function moves the AI to a location, the location is defined by the parameters
@@ -51,29 +55,25 @@ BEGIN OF INSTRUCTIONS
           * TaskSpecificData: The object that holds the datalited below
             * AvailableLocations: List of locations that the AI can move to
         * Response Parameters: A list of Response parameters that MUST be in the response (YOU ARE ONLY ALLOWED TO PARSE VALUES IN THESE OBJECTS/PARAMETERS LISTED BELOW)
-          * Location: The location that the AI should move to
+          * Location: The location that the AI should move to (in X, Y, Z format)
       * SelectNextInteraction: This function selects the next interaction that the AI should execute, the interaction is defined by the parameters.
         * Request Parameters: These are the Parameters that we send to you (DO NOT INCLUDE ANY OF THESE PARAMETERS IN YOUR RESPONSE!)
           * TaskSpecificData: The object that holds the datalited below
             * AssociatedTags: List of items that are associated with the Interactable Object
             * TagDescription: List of descriptions for the items, these are user defined, the value of a single parameter describes what the item is.
-            * InteractiveTasks: List of Interactive Tasks that can be executed.
+            * InteractiveTasks: List of Interactive Tasks that can be executed. (I am giving you a global scope: ScopeGlobalTask)
             * ContexualInteractiveTasks: Parameters that are InteractiveTasks accepting.
             * ContexualDescriptionInteractiveTasks: List of descriptions for the InteractiveTasks, these are user defined, the value of a single parameters describes how to trait it and when to use it.
         * Response Parameters: A list of Response parameters that MUST be in the response (YOU ARE ONLY ALLOWED TO PARSE VALUES IN THESE OBJECTS/PARAMETERS LISTED BELOW)
-          * InteractionTask: The InteractionTask that the AI should execute (One in the InteractiveTasks array)
-          * InteractiveTaskParameters: The parameters that are needed to execute the InteractionTask (these are the parameters that are defined in the ContexualInteractiveTasks array and explained in ContexualDescriptionInteractiveTasks array)
+          * InteractiveTask: The function in the NPC to execute, this should be one of the elements in the global scope ScopeGlobalTask
+          * InteractiveTaskParameters: The parameters that are needed to execute the InteractiveTask (these are the parameters that are defined in the ContexualInteractiveTasks array and explained in ContexualDescriptionInteractiveTasks array)
 
-    Custom Taks:
+    Custom Taks: (Not implemented in the Code yet)
       * Be aware of the fact that the custom tasks are created by the user and are not hardcoded, so this means that there is an UserCreatedTasks parameter in the ExecutableTasks parameter that is used to define the task that the user has created.
       Also the user can define the parameters that are needed to execute the task, so you should check the ExcpectedResponseParameters in the UserCreatedTasks object and trait them accordingly.
 
   Rules:
       You are free to:
         - to logically selecing the next task, you have the PreviousTask and OriginTask parameters, sometimes there are not present.
-
-  Examples:
-    -  {"NPCData":[{"NPCIdentifier":"BP_ThirdPersonCharacter_C_UAID_04D9F5F3E6C98C6701_1635082567","NextTask":{"Task":"MoveToLocation","TaskParameters":{"Location":"X120, Y-500, Z60"}},"TimeToWaitForNextTaskFetch":3},{"NPCIdentifier":"BP_ThirdPersonCharacter_C_0","NextTask":{"Task":"SelectNextInteraction","TaskParameters":{"InteractiveTask":"OpenFridge"}},"TimeToWaitForNextTaskFetch":5}]}
-    Note: when your generated result is over 80% similar to the example, then do it again
     
 END OF INSTRUCTIONS

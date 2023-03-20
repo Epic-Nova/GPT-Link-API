@@ -15,7 +15,7 @@ app.post('/', async(req, res) => {
   {
     res.send({
       "statusCode": 400,
-      "statusText": "No API Key provided."
+      "statusText": "No API Key provided.",
   })
     return
   }
@@ -39,6 +39,8 @@ app.post('/', async(req, res) => {
         conversationId: GPTResponse.conversationId,
         parentMessageId: GPTResponse.id
       })
+
+      console.log("GPT Response: " + GPTResponse.text)
   
       res.send(JSON.parse(GPTResponse.text))
     }
